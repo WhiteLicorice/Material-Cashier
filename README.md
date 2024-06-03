@@ -1,6 +1,6 @@
 # brm_cashier
 
-A new Flutter project.
+A mobile cashier application built with Flutter and Material Design.
 
 ## Getting Started
 
