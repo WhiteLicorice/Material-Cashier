@@ -199,26 +199,41 @@ class _TransactionScreenState extends State<TransactScreen> {
     _transactionController.clear();
     _quantityController.clear();
 
-    if (itemName.isNotEmpty && quantityText.isNotEmpty) {
-      // Create a new transaction object and add it to the list
-      final newTransaction = {
-        "id": transactions.length,
-        "item": itemName,
-        "quantity": double.parse(quantityText),
-        "price": _constructionSupplies[itemName]!,
-        "total": _constructionSupplies[itemName]! * double.parse(quantityText),
-      };
-      setState(() {
-        transactions.add(newTransaction);
-      });
-      print(transactions);
-    } else {
+    // Check if input fields are empty
+    if (itemName.isEmpty || quantityText.isEmpty) {
       // Show an error message if input fields are empty
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('Please fill in both fields.'),
+          duration: Duration(seconds: 1),
         ),
       );
+      return; // Exit the method if input fields are empty
     }
+
+    // Check if the item is not in the list of supplies
+    if (!_constructionSupplies.containsKey(itemName)) {
+      // Show an error message if the item is not in the list of supplies
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Item not found in the supply.'),
+          duration: Duration(seconds: 1),
+        ),
+      );
+      return; // Exit the method if the item is not found
+    }
+
+    // Create a new transaction object and add it to the list
+    final newTransaction = {
+      "id": transactions.length,
+      "item": itemName,
+      "quantity": double.parse(quantityText),
+      "price": _constructionSupplies[itemName]!,
+      "total": _constructionSupplies[itemName]! * double.parse(quantityText),
+    };
+    setState(() {
+      transactions.add(newTransaction);
+    });
+    print(transactions);
   }
 }
