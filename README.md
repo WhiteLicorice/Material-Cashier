@@ -14,3 +14,34 @@ A few resources to get you started if this is your first Flutter project:
 For help getting started with Flutter development, view the
 [online documentation](https://docs.flutter.dev/), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
+
+## Tickets
+
+## Transactions Page
+- [ ] Make item field searchable
+- [ ] Make item field autocomplete
+- [ ] Replace mocked data with calls to backend API
+
+## Home Page
+- [ ] Implement quit button
+
+## Auth
+- [ ] Implement user authentication to
+- [ ] Persist cashier credentials across application lifespan
+- [ ] Stamp transactions with cashier credentials
+
+## Checkout Page
+- [ ] Design checkout page
+- [ ] Make calls to database
+- [ ] Return back to transactions upon a successful transaction
+
+## Provider
+- [ ] Implement state management with provider
+- [ ] Pass data from transactions to checkout
+- [ ] Sanitize data on exit and upon successful transaction
+- [ ] Persist available supply across application lifespan to avoid repeated queries
+
+## Database
+- [ ] Design database schema
+- [ ] Integrate database with client
+- [ ] Listen to supplies to implement real-time databasing
