@@ -1,27 +1,91 @@
 import 'package:flutter/material.dart';
+import 'transact_form.dart';
 
-// Define a StatefulWidget for the TransactScreen
+// TransactScreen is a StatefulWidget which represents the main screen of the app
 class TransactScreen extends StatefulWidget {
-  const TransactScreen({Key? key}) : super(key: key);
+  const TransactScreen({super.key});
 
   @override
   State<TransactScreen> createState() => _TransactionScreenState();
 }
 
-// Define the State class associated with TransactScreen
+// State class for TransactScreen
 class _TransactionScreenState extends State<TransactScreen> {
+  //  TODO: Blank out in prod
   // Initialize a list of transactions with dummy data
   final List<Map<String, dynamic>> transactions = List.generate(10, (index) {
     return {
       "id": index,
-      "title": "Transaction #$index",
-      "amount": (index + 1) * 10
+      "item": "Dummy #$index",
+      "quantity": (index + 1),
+      "price": 10,
+      "total": (index + 1) * 10
     };
   });
 
-  // Initialize controllers for text input fields
+  // Controllers for transaction input fields
   final TextEditingController _transactionController = TextEditingController();
   final TextEditingController _quantityController = TextEditingController();
+
+  //  TODO: Change this into an API call to retrieve supplies
+  // Mock dictionary of construction supplies and their prices
+  final Map<String, double> _constructionSupplies = {
+    'Cement': 100.0,
+    'Sand': 50.0,
+    'Gravel': 70.0,
+    'Bricks': 30.0,
+    'Steel': 200.0,
+    'Cement Mix': 120.0,
+    'Concrete': 150.0,
+    'Sanding Paper': 20.0,
+    'Gravel Stones': 80.0,
+    'Brick Tiles': 40.0,
+    'Brick Blocks': 45.0,
+    'Steel Rods': 210.0,
+    'Steel Beams': 220.0,
+    'Wood': 60.0,
+    'Wooden Planks': 65.0,
+    'Plywood': 55.0,
+    'Nails': 10.0,
+    'Screws': 15.0,
+    'Bolts': 25.0,
+    'Washers': 5.0,
+    'Concrete Mix': 160.0,
+    'Cement Bags': 110.0,
+    'Mortar': 90.0,
+    'Asphalt': 130.0,
+    'Insulation': 85.0,
+    'Paint': 75.0,
+    'Primer': 35.0,
+    'Varnish': 45.0,
+    'Tile Adhesive': 70.0,
+    'Floor Tiles': 95.0,
+    'Wall Tiles': 100.0,
+    'Roof Tiles': 105.0,
+    'Ceramic Tiles': 115.0,
+    'Marble': 140.0,
+    'Granite': 145.0,
+    'Slate': 150.0,
+    'Gypsum': 50.0,
+    'Plaster': 55.0,
+    'Drywall': 60.0,
+    'PVC Pipes': 30.0,
+    'Copper Pipes': 35.0,
+    'Pex Pipes': 40.0,
+    'Electrical Wires': 20.0,
+    'Switches': 15.0,
+    'Outlets': 10.0,
+    'Circuit Breakers': 25.0,
+    'Light Fixtures': 35.0,
+    'LED Bulbs': 5.0,
+    'Fluorescent Tubes': 10.0,
+    'Glass Panels': 45.0,
+    'Window Frames': 50.0,
+    'Door Frames': 55.0,
+    'Locks': 20.0,
+    'Hinges': 15.0,
+    'Handles': 10.0,
+  };
 
   @override
   void initState() {
@@ -61,15 +125,53 @@ class _TransactionScreenState extends State<TransactScreen> {
                   ),
                   // Card widget to display each transaction
                   child: Card(
-                    margin:
-                        const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
-                    child: ListTile(
-                      leading: CircleAvatar(
-                        child: Text(transactions[index]["id"].toString()),
+                    margin: const EdgeInsets.symmetric(
+                        horizontal: 15, vertical: 10),
+                    elevation: 4,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(10),
+                      child: ListTile(
+                        leading: CircleAvatar(
+                          backgroundColor: Theme.of(context).primaryColor,
+                          child: Text(
+                            transactions[index]["id"].toString(),
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        ),
+                        title: Text(
+                          transactions[index]["item"],
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        subtitle: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Quantity: ${transactions[index]["quantity"]}",
+                              style: TextStyle(color: Colors.grey[700]),
+                            ),
+                            Text(
+                              "Price: ${transactions[index]["price"]}",
+                              style: TextStyle(color: Colors.grey[700]),
+                            ),
+                            Text(
+                              "Total: ${transactions[index]["total"]}",
+                              style: TextStyle(
+                                  color: Theme.of(context).primaryColor),
+                            ),
+                          ],
+                        ),
+                        trailing: IconButton(
+                          icon: const Icon(Icons.delete, color: Colors.red),
+                          onPressed: () {
+                            // Your delete function here
+                          },
+                        ),
                       ),
-                      title: Text(transactions[index]["title"]),
-                      subtitle: Text(transactions[index]["amount"].toString()),
-                      trailing: const Icon(Icons.arrow_back),
                     ),
                   ),
                 );
@@ -77,68 +179,39 @@ class _TransactionScreenState extends State<TransactScreen> {
             ),
           ),
           // Transaction input form
-          _buildTransactionForm(),
-        ],
-      ),
-    );
-  }
-
-  // Function to build the transaction input form
-  Widget _buildTransactionForm() {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Row(
-        children: [
-          // Text input field for transaction title
-          Expanded(
-            child: TextFormField(
-              controller: _transactionController,
-              decoration: const InputDecoration(
-                labelText: 'Transaction',
-              ),
-            ),
-          ),
-          const SizedBox(width: 16),
-          // Text input field for transaction amount
-          Expanded(
-            child: TextFormField(
-              controller: _quantityController,
-              decoration: const InputDecoration(
-                labelText: 'Amount',
-              ),
-              keyboardType: TextInputType.number,
-            ),
-          ),
-          // Button to add the transaction
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: ElevatedButton(
-              onPressed: _addTransaction,
-              child: const Text('Add'),
-            ),
+          TransactionForm(
+            transactionController: _transactionController,
+            quantityController: _quantityController,
+            addTransaction: _addTransaction,
+            constructionSupplies: _constructionSupplies,
           ),
         ],
       ),
     );
   }
 
-  // Function to add a new transaction
+  // Function to add a new transaction to the list
   void _addTransaction() {
-    final transactionTitle = _transactionController.text;
+    final itemName = _transactionController.text;
     final quantityText = _quantityController.text;
-    if (transactionTitle.isNotEmpty && quantityText.isNotEmpty) {
+
+    // Clear input fields after fetching the transaction
+    _transactionController.clear();
+    _quantityController.clear();
+
+    if (itemName.isNotEmpty && quantityText.isNotEmpty) {
       // Create a new transaction object and add it to the list
       final newTransaction = {
         "id": transactions.length,
-        "title": transactionTitle,
-        "amount": int.parse(quantityText),
+        "item": itemName,
+        "quantity": double.parse(quantityText),
+        "price": _constructionSupplies[itemName]!,
+        "total": _constructionSupplies[itemName]! * double.parse(quantityText),
       };
       setState(() {
         transactions.add(newTransaction);
       });
-      // Clear input fields after adding transaction
-      _transactionController.clear();
-      _quantityController.clear();
+      print(transactions);
     } else {
       // Show an error message if input fields are empty
       ScaffoldMessenger.of(context).showSnackBar(

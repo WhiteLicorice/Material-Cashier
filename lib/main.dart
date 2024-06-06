@@ -4,6 +4,7 @@
 import 'package:brm_cashier/transaction/transact_screen.dart'; // Importing a screen for transaction functionality
 import 'package:flutter/material.dart'; // Importing Flutter's material library for UI components
 import 'package:responsive_framework/responsive_framework.dart'; // Importing a package for making the app responsive
+import 'package:flutter_typeahead/flutter_typeahead.dart';
 
 // Internal imports
 import 'utils/_responsive_values.dart'; // Importing utility functions related to responsiveness
