@@ -18,15 +18,15 @@ samples, guidance on mobile development, and a full API reference.
 ## Tickets
 
 ## Transactions Page
-- [ ] Make item field searchable
-- [ ] Make item field autocomplete
+- [x] Make item field searchable and yield matching items
+- [x] Make item field autocomplete
 - [ ] Replace mocked data with calls to backend API
 
 ## Home Page
-- [ ] Implement quit button
+- [x] Implement quit button
 
 ## Auth
-- [ ] Implement user authentication to
+- [ ] Implement user authentication before home page
 - [ ] Persist cashier credentials across application lifespan
 - [ ] Stamp transactions with cashier credentials
 
