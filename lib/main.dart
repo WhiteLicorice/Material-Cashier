@@ -4,7 +4,6 @@
 import 'package:brm_cashier/transaction/transact_screen.dart'; // Importing a screen for transaction functionality
 import 'package:flutter/material.dart'; // Importing Flutter's material library for UI components
 import 'package:responsive_framework/responsive_framework.dart'; // Importing a package for making the app responsive
-import 'package:flutter_typeahead/flutter_typeahead.dart';
 
 // Internal imports
 import 'utils/_responsive_values.dart'; // Importing utility functions related to responsiveness
@@ -16,7 +15,7 @@ void main() {
 
 // Main application widget
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key});
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +58,7 @@ class MyApp extends StatelessWidget {
 
 // Home page widget
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title});
+  const MyHomePage({super.key, required this.title});
 
   final String title;
 
@@ -85,12 +84,14 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             ElevatedButton(
+              key: const Key('transactButton'),
               onPressed: () {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) =>
-                            const TransactScreen())); // Navigating to transaction screen on button press
+                        builder: (context) => const TransactScreen(
+                            key: Key(
+                                'transactScreen')))); // Navigating to transaction screen on button press
               },
               style: ElevatedButton.styleFrom(
                 fixedSize: Size(buttonWidth, 50), // Setting fixed button size
@@ -100,7 +101,10 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             const SizedBox(height: 50), // Adding space between buttons
             ElevatedButton(
-              onPressed: () {}, // No functionality added to the "Quit" button
+              key: const Key('quitButton'),
+              onPressed: () {
+                Navigator.pop(context);
+              }, // No functionality added to the "Quit" button
               style: ElevatedButton.styleFrom(
                 fixedSize: Size(buttonWidth, 50), // Setting fixed button size
                 textStyle: textStyle, // Applying responsive text style

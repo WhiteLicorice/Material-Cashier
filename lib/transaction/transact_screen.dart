@@ -138,12 +138,12 @@ class _TransactionScreenState extends State<TransactScreen> {
                           backgroundColor: Theme.of(context).primaryColor,
                           child: Text(
                             transactions[index]["id"].toString(),
-                            style: TextStyle(color: Colors.white),
+                            style: const TextStyle(color: Colors.white),
                           ),
                         ),
                         title: Text(
                           transactions[index]["item"],
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontWeight: FontWeight.bold,
                           ),
                         ),

@@ -45,6 +45,7 @@ class TransactionForm extends StatelessWidget {
                           supply.toLowerCase().contains(pattern.toLowerCase()))
                       .toList();
                 }
+                return [];
               },
               itemBuilder: (context, suggestion) {
                 return ListTile(
