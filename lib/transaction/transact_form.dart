@@ -1,22 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 
+import 'package:provider/provider.dart'; //  Importing flutter's provider package
+import '../supplies/supply_provider.dart';
+
 class TransactionForm extends StatelessWidget {
   final TextEditingController transactionController;
   final TextEditingController quantityController;
   final void Function() addTransaction;
-  final Map<String, double> constructionSupplies;
 
   const TransactionForm({
     super.key,
     required this.transactionController,
     required this.quantityController,
     required this.addTransaction,
-    required this.constructionSupplies,
   });
 
   @override
   Widget build(BuildContext context) {
+    final supplyProvider = Provider.of<SupplyProvider>(context, listen: false);
+    final constructionSupplies = supplyProvider.constructionSupplies;
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Row(
@@ -37,8 +40,6 @@ class TransactionForm extends StatelessWidget {
                     ));
               },
               suggestionsCallback: (pattern) {
-                // pattern = transactionController.text;
-                // print(pattern);
                 if (pattern.length > 1) {
                   return constructionSupplies.keys
                       .where((supply) =>
