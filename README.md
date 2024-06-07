@@ -36,10 +36,10 @@ samples, guidance on mobile development, and a full API reference.
 - [x] Return to home upon a successful transaction
 
 ## Provider
-- [ ] Implement state management with provider
-- [ ] Pass data from transactions to checkout
+- [x] Implement state management with provider
+- [x] Pass data from transactions to checkout
 - [ ] Sanitize data on exit and upon successful transaction
-- [ ] Persist available supply across application lifespan to avoid repeated queries
+- [x] Persist available supply across application lifespan to avoid repeated queries
 
 ## Database
 - [ ] Design database schema
