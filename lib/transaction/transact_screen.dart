@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'transact_form.dart';
+import 'transact_checkout.dart';
 
 // TransactScreen is a StatefulWidget which represents the main screen of the app
 class TransactScreen extends StatefulWidget {
@@ -107,7 +108,7 @@ class _TransactionScreenState extends State<TransactScreen> {
                 icon: const Icon(Icons.shopping_cart_checkout_outlined,
                     color: Colors.white),
                 onPressed: () {
-                  // TODO: Go to checkout screen via Navigator() here
+                  transactCheckout(context, transactions);
                 }),
           ]),
       body: Column(
