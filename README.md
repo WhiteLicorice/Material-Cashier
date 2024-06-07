@@ -31,9 +31,9 @@ samples, guidance on mobile development, and a full API reference.
 - [ ] Stamp transactions with cashier credentials
 
 ## Checkout Page
-- [ ] Design checkout page
+- [x] Design checkout page
 - [ ] Make calls to database
-- [ ] Return back to transactions upon a successful transaction
+- [x] Return to home upon a successful transaction
 
 ## Provider
 - [ ] Implement state management with provider
