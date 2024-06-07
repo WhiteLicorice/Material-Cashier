@@ -21,12 +21,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false, // Disabling debug banner
-      title: 'Flutter Demo', // Setting the title of the application
+      title: 'Material Cashier', // Setting the title of the application
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color.fromARGB(
-              255, 7, 233, 78), // Defining a custom color scheme
-        ),
+        colorSchemeSeed: Colors.lightGreen,
         useMaterial3: true, // Using Material 3 design
       ),
       builder: (context, child) => ResponsiveBreakpoints.builder(
@@ -51,7 +48,8 @@ class MyApp extends StatelessWidget {
         ],
       ),
       home: const MyHomePage(
-          title: 'Cashier'), // Setting the home page of the application
+          title:
+              'Material Cashier '), // Setting the home page of the application
     );
   }
 }
@@ -75,7 +73,10 @@ class _MyHomePageState extends State<MyHomePage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title), // Setting the title of the app bar
+        title: Text(widget.title,
+            style: const TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Colors.white)), // Setting the title of the app bar
         backgroundColor:
             Theme.of(context).primaryColor, // Setting app bar background color
       ),
@@ -104,7 +105,7 @@ class _MyHomePageState extends State<MyHomePage> {
               key: const Key('quitButton'),
               onPressed: () {
                 Navigator.pop(context);
-              }, // No functionality added to the "Quit" button
+              }, // Simply pop the context on quit, since this is guaranteed to be always at the root of the navigation stack
               style: ElevatedButton.styleFrom(
                 fixedSize: Size(buttonWidth, 50), // Setting fixed button size
                 textStyle: textStyle, // Applying responsive text style

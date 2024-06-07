@@ -26,6 +26,7 @@ class _TransactionScreenState extends State<TransactScreen> {
   // Controllers for transaction input fields
   final TextEditingController _transactionController = TextEditingController();
   final TextEditingController _quantityController = TextEditingController();
+  final ScrollController _scrollController = ScrollController();
 
   //  TODO: Change this into an API call to retrieve supplies
   // Mock dictionary of construction supplies and their prices
@@ -96,13 +97,25 @@ class _TransactionScreenState extends State<TransactScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Transact'),
-      ),
+          title: const Text('Transact',
+              style:
+                  TextStyle(fontWeight: FontWeight.bold, color: Colors.white)),
+          backgroundColor: Theme.of(context)
+              .primaryColor, // Setting app bar background color
+          actions: [
+            IconButton(
+                icon: const Icon(Icons.shopping_cart_checkout_outlined,
+                    color: Colors.white),
+                onPressed: () {
+                  // TODO: Go to checkout screen via Navigator() here
+                }),
+          ]),
       body: Column(
         children: [
           // Expanded ListView to display transactions
           Expanded(
             child: ListView.builder(
+              controller: _scrollController,
               itemCount: transactions.length,
               itemBuilder: (BuildContext context, index) {
                 // Dismissible widget to enable swiping to delete
@@ -234,6 +247,16 @@ class _TransactionScreenState extends State<TransactScreen> {
     setState(() {
       transactions.add(newTransaction);
     });
+
+    // Scroll to the absolute bottom of the list after each transaction
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _scrollController.animateTo(
+        _scrollController.position.maxScrollExtent,
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeOut,
+      );
+    });
+
     print(transactions);
   }
 }
