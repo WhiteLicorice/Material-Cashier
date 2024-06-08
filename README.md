@@ -20,10 +20,12 @@ samples, guidance on mobile development, and a full API reference.
 ## Transactions Page
 - [x] Make item field searchable and yield matching items
 - [x] Make item field autocomplete
+- [ ] Guard against empty transactions in prod
 - [ ] Replace mocked data with calls to backend API
 
 ## Home Page
 - [x] Implement quit button
+- [ ] Make quit button exit() instead of Navigator.pop()
 
 ## Auth
 - [ ] Implement user authentication before home page
