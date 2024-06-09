@@ -3,6 +3,7 @@
 // Importing necessary packages and files
 import 'package:brm_cashier/transaction/transact_screen.dart'; // Importing a screen for transaction functionality
 import 'package:flutter/material.dart'; // Importing Flutter's material library for UI components
+import 'package:flutter/services.dart'; // Importing Flutter's services library for controlling system-level events
 import 'package:responsive_framework/responsive_framework.dart'; // Importing a package for making the app responsive
 import 'package:provider/provider.dart'; //  Importing flutter's provider package
 
@@ -113,8 +114,10 @@ class _MyHomePageState extends State<MyHomePage> {
             ElevatedButton(
               key: const Key('quitButton'),
               onPressed: () {
-                Navigator.pop(context);
-              }, // Simply pop the context on quit, since this is guaranteed to be always at the root of the navigation stack
+                SystemChannels.platform.invokeMethod(
+                    'SystemNavigator.pop'); //  TODO: Make this behave the same in Windows platform
+              }, // Close the application programmatically in Flutter's recommended way: using Navigator.pop(context) or Dart's exit(0) may cause bad behavior
+              // Simply pop the context on quit, since this is guaranteed to be always at the root of the navigation stack
               style: ElevatedButton.styleFrom(
                 fixedSize: Size(buttonWidth, 50), // Setting fixed button size
                 textStyle: textStyle, // Applying responsive text style
