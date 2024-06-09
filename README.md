@@ -25,7 +25,7 @@ samples, guidance on mobile development, and a full API reference.
 
 ## Home Page
 - [x] Implement quit button
-- [ ] Make quit button exit() instead of Navigator.pop()
+- [x] Make quit button exit() instead of Navigator.pop()
 
 ## Auth
 - [ ] Implement user authentication before home page
