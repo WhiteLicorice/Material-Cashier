@@ -5,6 +5,7 @@ Future<void> transactCheckout(
   // Calculate the total price of the items
   double totalPrice = transactions.fold(0, (sum, item) => sum + item['total']);
 
+  
   // Show a dialog with the total price
   bool? confirm = await showDialog<bool>(
     context: context,

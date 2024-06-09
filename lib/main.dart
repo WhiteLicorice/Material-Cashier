@@ -7,14 +7,32 @@ import 'package:flutter/services.dart'; // Importing Flutter's services library 
 import 'package:responsive_framework/responsive_framework.dart'; // Importing a package for making the app responsive
 import 'package:provider/provider.dart'; //  Importing flutter's provider package
 
+import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+
 // Internal imports
 import 'utils/_responsive_values.dart'; // Importing utility functions related to responsiveness
+import 'utils/_splash_screen.dart'; //  Import a splash screen to use while loading asynchronous modules
 
 // Provider imports
 import 'supplies/supply_provider.dart';
 
 // Main function to run the application
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  // Display the splash screen while initializing
+  runApp(const SplashScreen());
+
+  // Load secrets
+  await dotenv.load();
+
+  // Connect to Supabase
+  await Supabase.initialize(
+    url: dotenv.env['SUPABASE_PROJECT']!,
+    anonKey: dotenv.env['SUPABASE_API_KEY']!,
+  );
+
+  // Run application after async loading
   runApp(
     ChangeNotifierProvider(
       create: (context) => SupplyProvider(), // Provide the SupplyProvider
