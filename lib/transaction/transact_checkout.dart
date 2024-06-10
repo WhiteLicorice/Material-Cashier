@@ -5,7 +5,27 @@ Future<void> transactCheckout(
   // Calculate the total price of the items
   double totalPrice = transactions.fold(0, (sum, item) => sum + item['total']);
 
-  
+  // If total price is zero, show empty cart prompt
+  if (totalPrice == 0) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Empty Cart',
+              style: TextStyle(fontWeight: FontWeight.bold)),
+          content: const Text('There are no items in the cart.'),
+          actions: <Widget>[
+            ElevatedButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: const Text('OK'),
+            ),
+          ],
+        );
+      },
+    );
+    return;
+  }
+
   // Show a dialog with the total price
   bool? confirm = await showDialog<bool>(
     context: context,
