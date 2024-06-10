@@ -12,15 +12,7 @@ class TransactScreen extends StatefulWidget {
 }
 
 class _TransactionScreenState extends State<TransactScreen> {
-  final List<Map<String, dynamic>> transactions = List.generate(10, (index) {
-    return {
-      "id": index,
-      "item": "Dummy #$index",
-      "quantity": (index + 1),
-      "price": 10,
-      "total": (index + 1) * 10
-    };
-  });
+  final List<Map<String, dynamic>> transactions = [];
 
   final TextEditingController _transactionController = TextEditingController();
   final TextEditingController _quantityController = TextEditingController();

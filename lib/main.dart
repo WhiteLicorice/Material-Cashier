@@ -1,44 +1,96 @@
 // Dart file for the main entry point of the Flutter application
 
 // Importing necessary packages and files
-import 'package:brm_cashier/transaction/transact_screen.dart'; // Importing a screen for transaction functionality
+import 'dart:async';
+import 'dart:io';
+import 'package:device_info_plus/device_info_plus.dart';
+
 import 'package:flutter/material.dart'; // Importing Flutter's material library for UI components
-import 'package:flutter/services.dart'; // Importing Flutter's services library for controlling system-level events
 import 'package:responsive_framework/responsive_framework.dart'; // Importing a package for making the app responsive
-import 'package:provider/provider.dart'; //  Importing flutter's provider package
+import 'package:provider/provider.dart'; // Importing flutter's provider package
 
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-// Internal imports
-import 'utils/_responsive_values.dart'; // Importing utility functions related to responsiveness
-import 'utils/_splash_screen.dart'; //  Import a splash screen to use while loading asynchronous modules
+// Screens
+import 'home/my_home_page.dart';
+import 'home/splash_screen.dart';
+import 'home/startup_error.dart';
 
-// Provider imports
+// Providers
 import 'supplies/supply_provider.dart';
 
 // Main function to run the application
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
   // Display the splash screen while initializing
   runApp(const SplashScreen());
 
-  // Load secrets
-  await dotenv.load();
+  //sleep(Durations.extralong4);
 
-  // Connect to Supabase
-  await Supabase.initialize(
-    url: dotenv.env['SUPABASE_PROJECT']!,
-    anonKey: dotenv.env['SUPABASE_API_KEY']!,
-  );
+  // Load secrets and connect to Supabase
+  bool initializationSuccess = await _initializeApp();
 
-  // Run application after async loading
-  runApp(
-    ChangeNotifierProvider(
-      create: (context) => SupplyProvider(), // Provide the SupplyProvider
-      child: const MyApp(),
-    ),
-  );
+  if (initializationSuccess) {
+    // Run application after async loading
+    runApp(
+      ChangeNotifierProvider(
+        create: (context) => SupplyProvider(), // Provide the SupplyProvider
+        child: const MyApp(), //  Run application
+      ),
+    );
+  }
+}
+
+// Place all async loading steps here
+Future<bool> _initializeApp() async {
+  try {
+    // Load secrets
+    await dotenv.load();
+
+    // Connect to Supabase
+    await Supabase.initialize(
+      url: dotenv.env['SUPABASE_PROJECT']!,
+      anonKey: dotenv.env['SUPABASE_API_KEY']!,
+    );
+
+    final deviceName = await getDeviceName();
+
+    // Log connection in supabase instance
+    final response = await Supabase.instance.client.from('ping').insert({
+      'device': deviceName,
+    });
+
+    if (response != null) {
+      throw Exception('Database connection error.');
+    }
+
+    return true;
+  } on SocketException catch (e) {
+    // Catching network-related exceptions
+    runApp(StartupError(message: 'Network error: $e'));
+    return false;
+  } catch (e) {
+    // Catching other exceptions
+    runApp(StartupError(message: 'Failed to initialize the app: $e'));
+    return false;
+  }
+}
+
+Future<String> getDeviceName() async {
+  final deviceInfoPlugin = DeviceInfoPlugin();
+  String deviceName;
+  if (Platform.isAndroid) {
+    var build = await deviceInfoPlugin.androidInfo;
+    deviceName = build.model;
+  } else if (Platform.isIOS) {
+    var data = await deviceInfoPlugin.iosInfo;
+    deviceName = data.name;
+  } else {
+    deviceName = 'unknown';
+  }
+  return deviceName;
 }
 
 // Main application widget
@@ -77,74 +129,7 @@ class MyApp extends StatelessWidget {
       ),
       home: const MyHomePage(
           title:
-              'Material Cashier '), // Setting the home page of the application
-    );
-  }
-}
-
-// Home page widget
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  @override
-  Widget build(BuildContext context) {
-    // Getting responsive values for button width and text style
-    final buttonWidth = ResponsiveValues.buttonWidth(context);
-    final textStyle = ResponsiveValues.textStyle(context);
-
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title,
-            style: const TextStyle(
-                fontWeight: FontWeight.bold,
-                color: Colors.white)), // Setting the title of the app bar
-        backgroundColor:
-            Theme.of(context).primaryColor, // Setting app bar background color
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            ElevatedButton(
-              key: const Key('transactButton'),
-              onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const TransactScreen(
-                            key: Key(
-                                'transactScreen')))); // Navigating to transaction screen on button press
-              },
-              style: ElevatedButton.styleFrom(
-                fixedSize: Size(buttonWidth, 50), // Setting fixed button size
-                textStyle: textStyle, // Applying responsive text style
-              ),
-              child: const Text("Transact"), // Button text
-            ),
-            const SizedBox(height: 50), // Adding space between buttons
-            ElevatedButton(
-              key: const Key('quitButton'),
-              onPressed: () {
-                SystemChannels.platform.invokeMethod(
-                    'SystemNavigator.pop'); //  TODO: Make this behave the same in Windows platform
-              }, // Close the application programmatically in Flutter's recommended way: using Navigator.pop(context) or Dart's exit(0) may cause bad behavior
-              // Simply pop the context on quit, since this is guaranteed to be always at the root of the navigation stack
-              style: ElevatedButton.styleFrom(
-                fixedSize: Size(buttonWidth, 50), // Setting fixed button size
-                textStyle: textStyle, // Applying responsive text style
-              ),
-              child: const Text("Quit"), // Button text
-            ),
-          ],
-        ),
-      ),
+              'Material Cashier'), // Setting the home page of the application
     );
   }
 }
