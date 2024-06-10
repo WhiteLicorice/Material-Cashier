@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:logger/logger.dart';
 import 'transact_form.dart';
 import 'transact_checkout.dart';
 import 'package:provider/provider.dart'; // Importing flutter's provider package
 import '../supplies/supply_provider.dart';
+
+var LOGGER = Logger();
 
 class TransactScreen extends StatefulWidget {
   const TransactScreen({super.key});
@@ -171,6 +174,6 @@ class _TransactionScreenState extends State<TransactScreen> {
       );
     });
 
-    print(transactions);
+    LOGGER.d(transactions);
   }
 }

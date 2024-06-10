@@ -11,6 +11,7 @@ import 'package:provider/provider.dart'; // Importing flutter's provider package
 
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:logger/logger.dart';
 
 // Screens
 import 'home/my_home_page.dart';
@@ -19,6 +20,8 @@ import 'home/startup_error.dart';
 
 // Providers
 import 'supplies/supply_provider.dart';
+
+var LOGGER = Logger();
 
 // Main function to run the application
 Future<void> main() async {
@@ -69,11 +72,13 @@ Future<bool> _initializeApp() async {
     return true;
   } on SocketException catch (e) {
     // Catching network-related exceptions
-    runApp(StartupError(message: 'Network error: $e'));
+    LOGGER.d(e);
+    runApp(const StartupError(message: 'Network error'));
     return false;
   } catch (e) {
+    LOGGER.d(e);
     // Catching other exceptions
-    runApp(StartupError(message: 'Failed to initialize the app: $e'));
+    runApp(const StartupError(message: 'Failed to initialize the app'));
     return false;
   }
 }
@@ -85,10 +90,11 @@ Future<String> getDeviceName() async {
     var build = await deviceInfoPlugin.androidInfo;
     deviceName = build.model;
   } else if (Platform.isIOS) {
-    var data = await deviceInfoPlugin.iosInfo;
-    deviceName = data.name;
+    var build = await deviceInfoPlugin.iosInfo;
+    deviceName = build.model;
   } else {
-    deviceName = 'unknown';
+    deviceName =
+        'unknown'; // TODO: Make this fetch names for Android, Linux, and Fuschia as well
   }
   return deviceName;
 }

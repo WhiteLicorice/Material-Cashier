@@ -54,7 +54,7 @@ class TransactionForm extends StatelessWidget {
                 );
               },
               onSelected: (suggestion) {
-                print("Selected $suggestion");
+                //print("Selected $suggestion");
                 transactionController.text = suggestion;
               },
             ),
