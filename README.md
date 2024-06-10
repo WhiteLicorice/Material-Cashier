@@ -20,7 +20,7 @@ samples, guidance on mobile development, and a full API reference.
 ## Transactions Page
 - [x] Make item field searchable and yield matching items
 - [x] Make item field autocomplete
-- [ ] Guard against empty transactions in prod
+- [x] Guard against empty transactions in prod
 - [ ] Replace mocked data with calls to backend API
 
 ## Home Page
@@ -45,5 +45,5 @@ samples, guidance on mobile development, and a full API reference.
 
 ## Database
 - [ ] Design database schema
-- [ ] Integrate database with client
+- [x] Integrate database with client
 - [ ] Listen to supplies to implement real-time databasing
