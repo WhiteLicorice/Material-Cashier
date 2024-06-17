@@ -1,64 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class SupplyProvider extends ChangeNotifier {
-  //  TODO: Change this to a database call to be launched on application startup
-  final Map<String, double> _constructionSupplies = {
-    'Cement': 100.0,
-    'Sand': 50.0,
-    'Gravel': 70.0,
-    'Bricks': 30.0,
-    'Steel': 200.0,
-    'Cement Mix': 120.0,
-    'Concrete': 150.0,
-    'Sanding Paper': 20.0,
-    'Gravel Stones': 80.0,
-    'Brick Tiles': 40.0,
-    'Brick Blocks': 45.0,
-    'Steel Rods': 210.0,
-    'Steel Beams': 220.0,
-    'Wood': 60.0,
-    'Wooden Planks': 65.0,
-    'Plywood': 55.0,
-    'Nails': 10.0,
-    'Screws': 15.0,
-    'Bolts': 25.0,
-    'Washers': 5.0,
-    'Concrete Mix': 160.0,
-    'Cement Bags': 110.0,
-    'Mortar': 90.0,
-    'Asphalt': 130.0,
-    'Insulation': 85.0,
-    'Paint': 75.0,
-    'Primer': 35.0,
-    'Varnish': 45.0,
-    'Tile Adhesive': 70.0,
-    'Floor Tiles': 95.0,
-    'Wall Tiles': 100.0,
-    'Roof Tiles': 105.0,
-    'Ceramic Tiles': 115.0,
-    'Marble': 140.0,
-    'Granite': 145.0,
-    'Slate': 150.0,
-    'Gypsum': 50.0,
-    'Plaster': 55.0,
-    'Drywall': 60.0,
-    'PVC Pipes': 30.0,
-    'Copper Pipes': 35.0,
-    'Pex Pipes': 40.0,
-    'Electrical Wires': 20.0,
-    'Switches': 15.0,
-    'Outlets': 10.0,
-    'Circuit Breakers': 25.0,
-    'Light Fixtures': 35.0,
-    'LED Bulbs': 5.0,
-    'Fluorescent Tubes': 10.0,
-    'Glass Panels': 45.0,
-    'Window Frames': 50.0,
-    'Door Frames': 55.0,
-    'Locks': 20.0,
-    'Hinges': 15.0,
-    'Handles': 10.0,
-  };
+  Map<String, double> _constructionSupplies = {};
 
   Map<String, double> get constructionSupplies => _constructionSupplies;
+
+  Future<void> fetchSupplies() async {
+    final response = await Supabase.instance.client
+        .from('supply_stock')
+        .select('supply:supply_id(supply_name), price');
+
+    _constructionSupplies = {
+      for (var item in response)
+        item['supply']['supply_name']: (item['price'] as num).toDouble()
+    };
+    notifyListeners();
+  }
 }

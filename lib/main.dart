@@ -36,10 +36,13 @@ Future<void> main() async {
   bool initializationSuccess = await _initializeApp();
 
   if (initializationSuccess) {
+    final supplyProvider = SupplyProvider();
+    await supplyProvider.fetchSupplies();
+
     // Run application after async loading
     runApp(
       ChangeNotifierProvider(
-        create: (context) => SupplyProvider(), // Provide the SupplyProvider
+        create: (context) => supplyProvider, // Provide the SupplyProvider
         child: const MyApp(), //  Run application
       ),
     );
