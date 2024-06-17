@@ -46,4 +46,4 @@ samples, guidance on mobile development, and a full API reference.
 ## Database
 - [x] Design database schema
 - [x] Integrate database with client
-- [ ] Listen to supplies to implement real-time databasing
+- [x] Listen to supplies to implement real-time databasing
