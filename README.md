@@ -44,6 +44,6 @@ samples, guidance on mobile development, and a full API reference.
 - [x] Persist available supply across application lifespan to avoid repeated queries
 
 ## Database
-- [ ] Design database schema
+- [x] Design database schema
 - [x] Integrate database with client
 - [ ] Listen to supplies to implement real-time databasing
