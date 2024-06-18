@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:uuid/uuid.dart';
 
 Future<void> transactCheckout(
     BuildContext context, List<Map<String, dynamic>> transactions) async {
@@ -68,8 +70,45 @@ Future<void> transactCheckout(
     },
   );
 
-  // If the cashier confirms and confirm == true, navigate to the home page
-  if (confirm == true && context.mounted) {
-    Navigator.of(context).popUntil((route) => route.isFirst);
+  // If the cashier confirms and confirm == true, proceed with the transaction
+  if (confirm == true) {
+    try {
+      var uuid = const Uuid();
+      String transactionHash = uuid.v4();
+
+      final response =
+          await Supabase.instance.client.from('transactions').insert(
+        {
+          'transaction_hash': transactionHash,
+        },
+      ).select();
+
+      print(response);
+
+      for (var transaction in transactions) {
+        await Supabase.instance.client.from('transaction_items').insert({
+          'item_id': transaction[
+              'id'], // Using the actual supply_id, see transact_form
+          'quantity': transaction['quantity'],
+          'transaction_hash': transactionHash,
+        });
+      }
+
+      // If successful, navigate to the home page
+      if (context.mounted) {
+        Navigator.of(context).popUntil((route) => route.isFirst);
+      }
+    } catch (error) {
+      // Handle any errors
+      if (context.mounted) {
+        print('Error during transaction: $error');
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Transaction failed: $error'),
+            duration: const Duration(seconds: 3),
+          ),
+        );
+      }
+    }
   }
 }

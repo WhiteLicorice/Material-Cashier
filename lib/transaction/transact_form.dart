@@ -39,12 +39,15 @@ class TransactionForm extends StatelessWidget {
                       labelText: 'Item',
                     ));
               },
-              suggestionsCallback: (pattern) {
+              suggestionsCallback: (pattern) async {
                 if (pattern.length > 1) {
-                  return constructionSupplies.keys
-                      .where((supply) =>
-                          supply.toLowerCase().contains(pattern.toLowerCase()))
+                  final suggestions = constructionSupplies.values
+                      .map((supply) => supply['supply_name'] as String)
+                      .where((supplyName) => supplyName
+                          .toLowerCase()
+                          .contains(pattern.toLowerCase()))
                       .toList();
+                  return suggestions;
                 }
                 return [];
               },

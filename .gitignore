@@ -1,5 +1,6 @@
 # Secrets
 *.env
+.vscode
 
 # Miscellaneous
 *.class

@@ -72,6 +72,8 @@ Future<bool> _initializeApp() async {
       throw Exception('Database connection error.');
     }
 
+    await Supabase.instance.client.auth.signInAnonymously();
+
     return true;
   } on SocketException catch (e) {
     // Catching network-related exceptions
@@ -97,7 +99,7 @@ Future<String> getDeviceName() async {
     deviceName = build.model;
   } else {
     deviceName =
-        'unknown'; // TODO: Make this fetch names for Android, Linux, and Fuschia as well
+        'unknown'; // TODO: Make this fetch names for Android, Linux, and Fuschia as well!
   }
   return deviceName;
 }

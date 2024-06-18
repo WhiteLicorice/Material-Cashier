@@ -74,7 +74,7 @@ class _TransactionScreenState extends State<TransactScreen> {
                         leading: CircleAvatar(
                           backgroundColor: Theme.of(context).primaryColor,
                           child: Text(
-                            transactions[index]["id"].toString(),
+                            (index + 1).toString(),
                             style: const TextStyle(color: Colors.white),
                           ),
                         ),
@@ -145,7 +145,14 @@ class _TransactionScreenState extends State<TransactScreen> {
       return;
     }
 
-    if (!constructionSupplies.containsKey(itemName)) {
+    // Fetch the supply ID based on the item name
+    final supplyId = constructionSupplies.keys.firstWhere(
+      (k) => constructionSupplies[k]?['supply_name'] == itemName,
+      orElse: () =>
+          -1, // Hacky way of sidestepping null-check, assuming supply_id is an int
+    );
+
+    if (supplyId == -1) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('Item not found in the supply.'),
@@ -155,13 +162,17 @@ class _TransactionScreenState extends State<TransactScreen> {
       return;
     }
 
+    final supplyData = constructionSupplies[supplyId];
+    final price = supplyData!['price'] as double;
+
     final newTransaction = {
-      "id": transactions.length,
+      "id": supplyId, // Actual supplyId
       "item": itemName,
       "quantity": double.parse(quantityText),
-      "price": constructionSupplies[itemName]!,
-      "total": constructionSupplies[itemName]! * double.parse(quantityText),
+      "price": price,
+      "total": price * double.parse(quantityText),
     };
+
     setState(() {
       transactions.add(newTransaction);
     });
