@@ -25,11 +25,13 @@ Grab a copy of environment keys from `superuser`.
 - [x] Make item field searchable and yield matching items
 - [x] Make item field autocomplete
 - [x] Guard against empty transactions in prod
+- [ ] Guard against `amount <=0` scenarios
 - [x] Replace mocked data with calls to backend API
 
 ## Home Page
 - [x] Implement quit button
 - [x] Make quit button exit() instead of Navigator.pop()
+- [ ] Make quit button behave the same across platforms
 
 ## Auth
 - [ ] Implement user authentication before home page
