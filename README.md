@@ -1,6 +1,6 @@
 # Material Cashier
 
-A mobile cashier application built with Flutter and Supabase, following a minimalist-first approach.
+A mobile cashier application built with Flutter and Supabase, following a minimalist-first philosophy.
 
 ## Getting Started
 
