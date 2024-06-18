@@ -43,6 +43,7 @@ dependencies:
   device_info_plus: ^10.1.0
   logger: ^2.3.0
   uuid: ^4.4.0
+  icons_launcher: ^2.1.7
 
 dev_dependencies:
   flutter_test:
