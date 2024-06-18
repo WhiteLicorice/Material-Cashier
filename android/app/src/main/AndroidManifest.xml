@@ -3,7 +3,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <!-- ... -->
     <application
-        android:label="brm_cashier"
+        android:label="Material Cashier"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
