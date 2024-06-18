@@ -42,7 +42,8 @@ Grab a copy of environment keys from `superuser`.
 - [x] Design checkout page
 - [x] Record transactions in database
 - [x] Return to home upon a successful transaction
-
+- [ ] Subtract transacted items from `stock`?
+      
 ## Provider
 - [x] Implement state management with provider
 - [x] Pass data from transactions to checkout
