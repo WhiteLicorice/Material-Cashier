@@ -1,6 +1,6 @@
 # Material Cashier
 
-A mobile cashier application built with Flutter and a minimalist-first approach.
+A mobile cashier application built with Flutter and Supabase, following a minimalist-first approach.
 
 ## Getting Started
 
@@ -21,7 +21,7 @@ samples, guidance on mobile development, and a full API reference.
 - [x] Make item field searchable and yield matching items
 - [x] Make item field autocomplete
 - [x] Guard against empty transactions in prod
-- [ ] Replace mocked data with calls to backend API
+- [x] Replace mocked data with calls to backend API
 
 ## Home Page
 - [x] Implement quit button
@@ -34,13 +34,13 @@ samples, guidance on mobile development, and a full API reference.
 
 ## Checkout Page
 - [x] Design checkout page
-- [ ] Make calls to database
+- [x] Record transactions in database
 - [x] Return to home upon a successful transaction
 
 ## Provider
 - [x] Implement state management with provider
 - [x] Pass data from transactions to checkout
-- [ ] Sanitize data on exit and upon successful transaction
+- [x] Sanitize data on exit and upon successful transaction
 - [x] Persist available supply across application lifespan to avoid repeated queries
 
 ## Database
