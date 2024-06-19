@@ -21,7 +21,7 @@ import 'home/startup_error.dart';
 // Providers
 import 'supplies/supply_provider.dart';
 
-var LOGGER = Logger();
+var logger = Logger();
 
 // Main function to run the application
 Future<void> main() async {
@@ -77,11 +77,11 @@ Future<bool> _initializeApp() async {
     return true;
   } on SocketException catch (e) {
     // Catching network-related exceptions
-    LOGGER.d(e);
+    logger.d(e);
     runApp(const StartupError(message: 'Network error'));
     return false;
   } catch (e) {
-    LOGGER.d(e);
+    logger.d(e);
     // Catching other exceptions
     runApp(const StartupError(message: 'Failed to initialize the app'));
     return false;
