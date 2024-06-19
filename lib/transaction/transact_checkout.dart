@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:uuid/uuid.dart';
+import 'package:logger/logger.dart';
+
+var logger = Logger();
 
 Future<void> transactCheckout(
     BuildContext context, List<Map<String, dynamic>> transactions) async {
@@ -73,9 +76,11 @@ Future<void> transactCheckout(
   // If the cashier confirms and confirm == true, proceed with the transaction
   if (confirm == true) {
     try {
+      //  Fetch a unique user id
       var uuid = const Uuid();
       String transactionHash = uuid.v4();
 
+      //  Insert transaction hash -> use transaction hash as foreign key when inserting into transaction_items
       final response =
           await Supabase.instance.client.from('transactions').insert(
         {
@@ -83,7 +88,7 @@ Future<void> transactCheckout(
         },
       ).select();
 
-      print(response);
+      logger.d(response);
 
       for (var transaction in transactions) {
         await Supabase.instance.client.from('transaction_items').insert({
@@ -101,7 +106,7 @@ Future<void> transactCheckout(
     } catch (error) {
       // Handle any errors
       if (context.mounted) {
-        print('Error during transaction: $error');
+        logger.d('Error during transaction: $error');
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text('Transaction failed: $error'),

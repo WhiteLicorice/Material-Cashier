@@ -5,7 +5,7 @@ import 'transact_checkout.dart';
 import 'package:provider/provider.dart'; // Importing flutter's provider package
 import '../supplies/supply_provider.dart';
 
-var LOGGER = Logger();
+var logger = Logger();
 
 class TransactScreen extends StatefulWidget {
   const TransactScreen({super.key});
@@ -105,7 +105,12 @@ class _TransactionScreenState extends State<TransactScreen> {
                         trailing: IconButton(
                           icon: const Icon(Icons.delete, color: Colors.red),
                           onPressed: () {
-                            // Your delete function here
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text('Swipe to the left to delete.'),
+                                duration: Duration(seconds: 1),
+                              ),
+                            );
                           },
                         ),
                       ),
@@ -135,10 +140,23 @@ class _TransactionScreenState extends State<TransactScreen> {
     _transactionController.clear();
     _quantityController.clear();
 
+    // Guard against empty fields
     if (itemName.isEmpty || quantityText.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('Please fill in both fields.'),
+          duration: Duration(seconds: 1),
+        ),
+      );
+      return;
+    }
+
+    // Guard against invalid quantities
+    double? quantity = double.tryParse(quantityText);
+    if (quantity == null || quantity <= 0) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Amount cannot be zero or non-numeric.'),
           duration: Duration(seconds: 1),
         ),
       );
@@ -152,6 +170,7 @@ class _TransactionScreenState extends State<TransactScreen> {
           -1, // Hacky way of sidestepping null-check, assuming supply_id is an int
     );
 
+    // Null check
     if (supplyId == -1) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
@@ -162,9 +181,9 @@ class _TransactionScreenState extends State<TransactScreen> {
       return;
     }
 
+    // Draft the final transaction
     final supplyData = constructionSupplies[supplyId];
     final price = supplyData!['price'] as double;
-
     final newTransaction = {
       "id": supplyId, // Actual supplyId
       "item": itemName,
@@ -173,10 +192,12 @@ class _TransactionScreenState extends State<TransactScreen> {
       "total": price * double.parse(quantityText),
     };
 
+    // Append transaction to internal transaction array
     setState(() {
       transactions.add(newTransaction);
     });
 
+    // Scroll down to bottom of the transaction list
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _scrollController.animateTo(
         _scrollController.position.maxScrollExtent,
@@ -185,6 +206,6 @@ class _TransactionScreenState extends State<TransactScreen> {
       );
     });
 
-    LOGGER.d(transactions);
+    logger.d(transactions);
   }
 }

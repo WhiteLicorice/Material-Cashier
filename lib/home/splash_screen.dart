@@ -6,6 +6,7 @@ class SplashScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
+      debugShowCheckedModeBanner: false, // Disabling debug banner
       // Wrap with MaterialApp
       home: Scaffold(
         body: Center(

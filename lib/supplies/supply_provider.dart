@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+import 'package:logger/logger.dart';
+
+var logger = Logger();
+
 class SupplyProvider extends ChangeNotifier {
   Map<int, Map<String, dynamic>> _constructionSupplies = {};
 
@@ -12,7 +16,7 @@ class SupplyProvider extends ChangeNotifier {
         .from('supply_stock')
         .select('supply:supply_id(supply_name), price, supply_id');
 
-    print(response);
+    logger.d(response);
 
     _constructionSupplies = {
       for (var item in response)
