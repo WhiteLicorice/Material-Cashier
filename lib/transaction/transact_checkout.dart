@@ -80,11 +80,29 @@ Future<void> transactCheckout(
       var uuid = const Uuid();
       String transactionHash = uuid.v4();
 
+      //  TODO: Change to phone sign in if email unfeasible
+      var userMetadata = Supabase.instance.client.auth.currentUser;
+      var user = userMetadata;
+      String email = user!.email.toString();
+
+      logger.d(email);
+
+      // Query Supabase to find the profile ID for the given username
+      var query = await Supabase.instance.client
+          .from('profiles')
+          .select('id')
+          .eq('email', email);
+
+      logger.d(query);
+
+      int userId = query[0]['id'];
+
       //  Insert transaction hash -> use transaction hash as foreign key when inserting into transaction_items
       final response =
           await Supabase.instance.client.from('transactions').insert(
         {
           'transaction_hash': transactionHash,
+          'transact_by': userId,
         },
       ).select();
 
