@@ -90,6 +90,16 @@ class SignInScreenState extends State<SignInScreen> {
                                 .signInWithPassword(
                                     email: email,
                                     password: _passwordController.text);
+
+                            // Hacky way of terminating sessions, since free Supabase doesn't let us control session duration
+                            // This has the side effect of logging out the cashier from all other devices
+                            await Supabase.instance.client.auth
+                                .signOut(scope: SignOutScope.global);
+
+                            await Supabase.instance.client.auth
+                                .signInWithPassword(
+                                    email: email,
+                                    password: _passwordController.text);
                           } catch (e) {
                             logger.d(e);
                             ScaffoldMessenger.of(context).showSnackBar(
