@@ -96,6 +96,8 @@ Future<void> transactCheckout(
       logger.d(query);
 
       int userId = query[0]['id'];
+      // Signifies that the transaction hasn't been verified by the checker yet
+      int defaultTransactionStatus = 0;
 
       //  Insert transaction hash -> use transaction hash as foreign key when inserting into transaction_items
       final response =
@@ -103,6 +105,7 @@ Future<void> transactCheckout(
         {
           'transaction_hash': transactionHash,
           'transact_by': userId,
+          'transaction_status': defaultTransactionStatus,
         },
       ).select();
 

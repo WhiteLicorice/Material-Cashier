@@ -21,7 +21,7 @@ class SignInScreenState extends State<SignInScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Sign In',
+        title: const Text('Material Cashier',
             style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white)),
         backgroundColor: Theme.of(context).primaryColor,
       ),
@@ -94,7 +94,7 @@ class SignInScreenState extends State<SignInScreen> {
                             logger.d(e);
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(
-                                content: Text('Please try again.'),
+                                content: Text('Credentials incorrect.'),
                                 duration: Duration(seconds: 1),
                               ),
                             );
