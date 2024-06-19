@@ -34,9 +34,9 @@ Grab a copy of environment keys from `superuser`.
 - [ ] Make quit button behave the same across platforms
 
 ## Auth
-- [ ] Implement user authentication before home page
-- [ ] Persist cashier credentials across application lifespan
-- [ ] Stamp transactions with cashier credentials
+- [x] Implement user authentication before home page
+- [x] Persist cashier credentials across application lifespan
+- [x] Stamp transactions with cashier credentials
 
 ## Checkout Page
 - [x] Design checkout page
