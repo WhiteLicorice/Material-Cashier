@@ -4,7 +4,7 @@ A mobile cashier application built with Flutter and Supabase, following a minima
 
 ## Getting Started
 
-Set up your [Supabase](supabase.com) dashboard and retrieve a copy of the database schema from `supauser`.
+Set up your [Supabase](https://supabase.com/) dashboard and retrieve a copy of the database schema from `supauser`.
 
 ## Tickets
 
