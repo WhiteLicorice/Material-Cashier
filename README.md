@@ -4,20 +4,7 @@ A mobile cashier application built with Flutter and Supabase, following a minima
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
-
-## Setup
-
-Grab a copy of environment keys from `superuser`.
+Set up your [Supabase](https://supabase.com/) dashboard and retrieve a copy of the database schema from `supauser`.
 
 ## Tickets
 
@@ -37,7 +24,8 @@ Grab a copy of environment keys from `superuser`.
 - [x] Implement user authentication before home page
 - [x] Persist cashier credentials across application lifespan
 - [x] Stamp transactions with cashier credentials
-
+- [x] Terminate user sessions, allowing only one session per user
+      
 ## Checkout Page
 - [x] Design checkout page
 - [x] Record transactions in database
