@@ -46,7 +46,7 @@ class SignInScreenState extends State<SignInScreen> {
                         return null;
                       },
                     ),
-                    SizedBox(height: 20),
+                    const SizedBox(height: 20),
                     TextFormField(
                       controller: _passwordController,
                       decoration: const InputDecoration(labelText: 'Password'),
@@ -58,7 +58,7 @@ class SignInScreenState extends State<SignInScreen> {
                         return null;
                       },
                     ),
-                    SizedBox(height: 20),
+                    const SizedBox(height: 20),
                     ElevatedButton(
                       onPressed: () async {
                         if (_formKey.currentState!.validate()) {
